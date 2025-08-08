@@ -7,3 +7,37 @@ search: false
 
 @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
 @import "minimal-mistakes"; // main partials
+
+/* Custom font size adjustments */
+html {
+  font-size: 14px; // Reduced from default 16px
+  
+  @include breakpoint($medium) {
+    font-size: 16px; // Slightly smaller on medium screens
+  }
+  
+  @include breakpoint($large) {
+    font-size: 18px; // Smaller on large screens (was 20px)
+  }
+  
+  @include breakpoint($x-large) {
+    font-size: 20px; // Reduced from 22px
+  }
+}
+
+.page__content {
+  font-size: 0.9em; // Make content text smaller
+  line-height: 1.6;
+}
+
+.page__content h1 {
+  font-size: 1.8em; // Smaller headings
+}
+
+.page__content h2 {
+  font-size: 1.5em;
+}
+
+.page__content h3 {
+  font-size: 1.3em;
+}
