@@ -12,16 +12,16 @@
 
 # theme                  : "minimal-mistakes-jekyll"
 remote_theme           : "mmistakes/minimal-mistakes"
-minimal_mistakes_skin    : "default" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
+minimal_mistakes_skin    : "dark" # "air", "aqua", "contrast", "dark", "dirt", "neon", "mint", "plum", "sunrise"
 
 # Site Settings
 locale                   : "en-US"
 rtl                      : # true, false (default) # turns direction of the page into right to left for RTL languages
-title                    : "Site Title"
+title                    : "Ship Fast, Code Smart"
 title_separator          : "-"
-subtitle                 : # site tagline that appears below site title in masthead
-name                     : "Your Name"
-description              : "An amazing website."
+subtitle                 : "From idea to production at lightning speed" # site tagline that appears below site title in masthead
+name                     : "Eli Grumman"
+description              : "Fullstack Team Lead exploring the frontiers of AI-powered development. Sharing how Claude Code, MCP agents, and modern tooling are revolutionizing the way we build and ship software."
 url                      : "https://eligrumman.github.io" # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
 baseurl                  : "" # the subpath of your site, e.g. "/blog"
 repository               : "eligrumman/eligrumman.github.io" # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
@@ -113,30 +113,30 @@ analytics:
 
 # Site Author
 author:
-  name             : "Your Name"
+  name             : "Eli Grumman"
   avatar           : # path of avatar image, e.g. "/assets/images/bio-photo.jpg"
-  bio              : "I am an **amazing** person."
-  location         : "Somewhere"
-  email            :
+  bio              : "**AI-Powered Fullstack Lead** • 14 years crafting code • Turning ideas into production-ready features with Claude Code, MCP agents & bleeding-edge tooling • Team Lead @Axonius"
+  location         : "Tel Aviv, Israel"
+  email            : "eligro91@gmail.com"
   links:
     - label: "Email"
       icon: "fas fa-fw fa-envelope-square"
-      # url: "mailto:your.name@email.com"
-    - label: "Website"
-      icon: "fas fa-fw fa-link"
-      # url: "https://your-website.com"
-    - label: "Twitter"
-      icon: "fab fa-fw fa-twitter-square"
-      # url: "https://twitter.com/"
-    - label: "Facebook"
-      icon: "fab fa-fw fa-facebook-square"
-      # url: "https://facebook.com/"
+      url: "mailto:eligro91@gmail.com"
+    - label: "LinkedIn"
+      icon: "fab fa-fw fa-linkedin"
+      url: "https://www.linkedin.com/in/eli-grumman"
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
-      # url: "https://github.com/"
-    - label: "Instagram"
-      icon: "fab fa-fw fa-instagram"
-      # url: "https://instagram.com/"
+      url: "https://github.com/eligrumman"
+    - label: "PodText"
+      icon: "fas fa-fw fa-link"
+      url: "https://www.tamleli.com/#/search"
+    - label: "SimpleRed"
+      icon: "fas fa-fw fa-code"
+      url: "https://simplered.vercel.app"
+    - label: "WhatsApp Bot"
+      icon: "fab fa-fw fa-whatsapp"
+      url: "https://api.whatsapp.com/send/?phone=972535528373&text&type=phone_number"
 
 # Site Footer
 footer:
