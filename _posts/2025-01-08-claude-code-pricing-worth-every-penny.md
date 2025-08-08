@@ -193,7 +193,7 @@ Breakdown:
 
 | Scenario | Hourly Rate | Time Saved | Value Created | ROI |
 |----------|-------------|------------|---------------|-----|
-| Conservative | $112 (-25%) | 60h (-25%) | $6,720 | 3,007% |
+| Conservative | $112 (-25%) | 60h (-25%) | $6,720 | 2,027% |
 | Base Case | $150 | 80h | $12,000 | 5,442% |
 | Optimistic | $187 (+25%) | 100h (+25%) | $18,750 | 8,566% |
 
