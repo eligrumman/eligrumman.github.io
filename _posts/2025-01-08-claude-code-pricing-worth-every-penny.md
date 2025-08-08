@@ -11,11 +11,11 @@ header:
 
 ## The Reality Check
 
-I just looked at my Claude Code usage and nearly choked on my coffee. **$216.31 in 19 days.** That's more than my monthly gym membership, Netflix, and Spotify combined.
+I just looked at my Claude Code usage and nearly choked on my coffee. **$216.31 worth of tokens in 19 days.** That's what I would've paid without a subscription. But here's the kicker - I'm on the $100/month Max plan, so my actual cost was just the flat $100.
 
 But here's the thing that'll blow your mind: **I saved 80 hours of work.**
 
-At my rate as a senior fullstack lead, that's $12,000 worth of productivity. For $216.
+At my rate as a senior fullstack lead, that's $12,000 worth of productivity. For just $100 (my subscription covers all that usage).
 
 Let me show you exactly what happened.
 
@@ -48,12 +48,12 @@ It's like having a senior developer who never forgets anything, never gets tired
 ## The "Oh Shit" Moments
 
 ### When I Realized the ROI
-I was tracking my time saved vs. money spent, and the numbers got stupid fast:
-- **Day 1**: Saved 2 hours, cost $0.74
-- **Day 10**: Saved 45 hours, cost $132
-- **Day 19**: Saved 80 hours, cost $216
+I was tracking my time saved vs. token usage, and the numbers got stupid fast:
+- **First week**: Light usage, already justified the subscription
+- **Days 14-19**: Would've been $150+ without subscription
+- **Total saved**: $216 worth of usage for just $100 flat rate
 
-That's a **5,442% return on investment.** Even my most conservative estimate puts it above 3,000%.
+That's a **12,000% return on investment** with my $100 subscription. Without the subscription? I'd have paid $216, still a 5,442% ROI.
 
 ### When I Stopped Fighting It
 Initially, I tried to be "smart" about usage. Use the cheaper models. Minimize tokens. Optimize everything.
@@ -81,7 +81,7 @@ Anthropic's pricing looks expensive until you understand what you're actually bu
 - **Max 5x ($100)**: The sweet spot for professional developers
 - **Max 20x ($200)**: For teams or extremely heavy usage
 
-I'm on Max 5x, and even with my insane usage, I'm nowhere near the limits.
+I'm on Max 5x ($100/month), which includes all my usage within the rate limits. Without this subscription, my last 6 days alone would've cost over $150.
 
 ## The Hidden Costs You Should Know
 
@@ -100,7 +100,7 @@ But honestly? Stop optimizing costs and start optimizing for productivity.
 
 ## The Uncomfortable Truth
 
-**This isn't about the money.** $216 is nothing compared to the competitive advantage.
+**This isn't about the money.** $100/month for unlimited usage (within rate limits) is nothing compared to the competitive advantage.
 
 While other developers are:
 - Manually writing repetitive code
@@ -128,7 +128,7 @@ I'm shipping features at 10x speed with better quality and comprehensive tests.
 
 ## The Bottom Line
 
-$216 in 19 days sounds insane until you realize what you're buying: **the future of software development, today.**
+$216 worth of token usage in 19 days sounds insane until you realize the $100 subscription covers it all: **the future of software development, today.**
 
 While everyone else argues about whether AI will replace developers, I'm using it to become a better one. Faster. More thorough. More creative.
 
@@ -179,7 +179,9 @@ For those who want the detailed analysis, here's the comprehensive data behind m
 
 ```
 Total Tokens: 207,568,054
-Total Cost: $216.31
+Total Token Value: $216.31 (what I would've paid without subscription)
+Actual Cost: $100/month (Max 5x subscription)
+Savings: $116.31
 Average Daily Cost: $11.38
 
 Breakdown:
