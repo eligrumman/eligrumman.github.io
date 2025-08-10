@@ -31,7 +31,9 @@ The only session limit I hit was August 9th - a $42 session that pushed me over 
 
 ## What This Actually Represents
 
-This isn't casual usage. I use Claude Code for architecture, orchestration, coding - everything. I deliver complete features and fix bugs without touching code directly. All through Claude Code. (I'll write another blog post about this workflow.)
+This isn't casual usage. I run Claude Code on a remote server with bypass permissions and sub-agents, so it's doing extensive work without manual intervention. It can take a GitHub issue and handle it end-to-end: from investigation and coding to PR creation, real browser QA post-deployment, and everything in between.
+
+I use Claude Code for architecture, orchestration, coding - everything. I deliver complete features and fix bugs without touching code directly. All through Claude Code. (This blog and current post were also created entirely through Claude Code workflows. I'll write another blog post about this workflow.)
 
 The Max plan gives you roughly 50 sessions per month at the $40+ threshold - that's potentially $2,000 worth of API tokens monthly. Most developers won't approach this. For those who do, the math is clear.
 
