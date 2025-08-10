@@ -41,18 +41,22 @@
   #### 5. Blog PR Stages
 
   **Stage 1 - Content Creation (Draft PR):**
-  1. DELEGATE to content-marketer for initial draft
-  2. DELEGATE to search-specialist for fact-checking
-  3. DELEGATE to relevant tech agent for code examples
-  4. Create DRAFT PR with initial content
-  5. DELEGATE to code-reviewer for technical accuracy
+  1. DELEGATE to content-marketer for initial draft **SUGGESTIONS ONLY - NO CHANGES**
+  2. DELEGATE to search-specialist for fact-checking **SUGGESTIONS ONLY - NO CHANGES**
+  3. DELEGATE to relevant tech agent for code examples **SUGGESTIONS ONLY - NO CHANGES**
+  4. **GET USER APPROVAL** for all suggested changes before implementing
+  5. Apply approved changes only
+  6. Create DRAFT PR with initial content
+  7. DELEGATE to code-reviewer for technical accuracy **SUGGESTIONS ONLY - NO CHANGES**
 
   **Stage 2 - Content Review (Ready PR):**
-  6. DELEGATE to content-marketer for content quality review
-  7. DELEGATE to search-specialist for SEO optimization
-  8. Address all review feedback
-  9. Mark PR as "Ready for Review"
-  10. Comment: "Content and technical accuracy approved, please review @user"
+  8. DELEGATE to content-marketer for content quality review **SUGGESTIONS ONLY - NO CHANGES**
+  9. DELEGATE to search-specialist for SEO optimization **SUGGESTIONS ONLY - NO CHANGES**
+  10. **GET USER APPROVAL** for all suggested changes before implementing
+  11. Apply approved changes only
+  12. Address all review feedback
+  13. Mark PR as "Ready for Review"
+  14. Comment: "Content and technical accuracy approved, please review @user"
 
   #### 6. Blog Quality Gates
   **All blog posts must pass:**
