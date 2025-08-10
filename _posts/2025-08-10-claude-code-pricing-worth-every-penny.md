@@ -1,10 +1,10 @@
 ---
 layout: single
 title: "Why Claude Code Max ($100) Is Worth Every Dollar"
-date: 2025-01-08
+date: 2025-08-10
 categories: [development, ai-tools, productivity]
 tags: [claude-code, pricing, max-plan, development-workflow]
-excerpt: "A week of intensive Claude Code usage: $116 worth of tokens, one limit hit, and why the upcoming August changes don't matter. Technical analysis of what the Max plan actually delivers."
+excerpt: "A week of intensive Claude Code usage: $249 worth of tokens, one limit hit, and why the upcoming August changes don't matter. Technical analysis of what the Max plan actually delivers."
 header:
   teaser: /assets/images/claude-code-pricing.png
 ---
@@ -68,7 +68,7 @@ The $100 plan is enough for dealing with 5-10 medium-level issues per session, e
 
 ## Technical Usage Analysis
 
-The `ccusage` tool reveals actual token consumption:
+The `ccusage` tool (a community CLI for analyzing Claude Code usage from local logs) reveals actual token consumption:
 
 ```bash
 # Daily breakdown - shows date, total tokens, API cost equivalent
