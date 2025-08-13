@@ -31,9 +31,9 @@ The only session limit I hit was August 9th - a $42 session that pushed me over 
 
 ## What This Actually Represents
 
-This represents an orchestrator workflow handling development activity issue by issue. I run Claude Code with specialized sub-agents that take GitHub issues and resolve them end-to-end: investigation, coding, PR creation, testing, and deployment verification. Each issue gets resolved completely before moving to the next.
+This represents an [orchestrator workflow](/development/ai-tools/workflow/2025/08/13/issue-driven-development-orchestrator-workflow.html) handling development activity issue by issue. I run Claude Code with specialized sub-agents that take GitHub issues and resolve them end-to-end: investigation, coding, PR creation, testing, and deployment verification. Each issue gets resolved completely before moving to the next.
 
-This orchestrated approach means Claude Code handles architecture decisions, code implementation, testing strategies, and deployment validation. Complete features and bug fixes get delivered without manual coding intervention. (This blog post was created through the same orchestrator workflow.)
+This orchestrated approach means Claude Code handles architecture decisions, code implementation, testing strategies, and deployment validation. Complete features and bug fixes get delivered without manual coding intervention. (This blog post was created through the same orchestrator workflow - [see how it works](/development/ai-tools/workflow/2025/08/13/issue-driven-development-orchestrator-workflow.html).)
 
 The original Max plan documentation mentioned roughly 50 sessions per month (based on [this YouTube analysis](https://www.youtube.com/watch?v=2fbqo9Bdd_w) and [community research](https://gist.github.com/eonist/5ac2fd483cf91a6e6e5ef33cfbd1ee5e)), but this information appears outdated as Anthropic shifts to weekly limits.
 
