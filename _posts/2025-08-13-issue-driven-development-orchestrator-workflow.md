@@ -1,151 +1,102 @@
 ---
 layout: single
-title: "Implementing an Orchestrator Pattern for AI-Assisted Development"
+title: "A Personal Experiment: Orchestrating AI Agents for Development"
 date: 2025-08-13
 categories: [development, ai-tools, workflow]
 tags: [claude-code, orchestrator-pattern, issue-driven-development, ai-agents]
-excerpt: "A systematic approach to AI pair programming using separation of concerns, specialized agents, and two-stage code review. Implementation details and measured results."
+excerpt: "My experience building a structured approach to AI-assisted development. What works, what doesn't, and honest limitations of trying to systematize AI code generation."
 header:
   teaser: /assets/images/orchestrator-workflow.png
 ---
 
-After six months of iterating on AI-assisted development workflows, I've settled on an orchestrator pattern that consistently delivers production-ready code from GitHub issues. This post documents the implementation, including configuration files, agent delegation logic, and measured improvements in code quality metrics.
+I've been experimenting with treating Claude Code as an orchestrator that delegates to specialized agents rather than asking it to code directly. This post documents what I've learned from implementing this approach on a small personal project (this blog), including the configuration, workflow, and honest assessment of where it works and where it falls short.
 
-## Context: The Integration Problem
+**Important caveat**: This is a personal experiment on a simple blog codebase. I don't have metrics from large teams or complex production systems. The patterns described here may not scale beyond hobby projects.
 
-Direct AI code generation produces syntactically correct code that frequently fails integration. In a sample of 50 features implemented directly through AI prompting, I observed:
+## The Problem I Was Trying to Solve
 
-- 40% required significant rework to match existing patterns
-- 60% failed existing tests on first run
-- Average time from generation to working PR: 2.5 hours
-- Manual intervention points: 8-12 per feature
+When I ask Claude Code directly for code changes, I often get solutions that:
+- Work in isolation but don't match my existing patterns
+- Break things I forgot to mention in my prompt
+- Require multiple back-and-forth iterations to get right
+- Miss edge cases or testing requirements
 
-The root cause: AI lacks persistent context about architectural decisions, code patterns, and project-specific conventions.
+I don't have precise metrics on this (I wasn't tracking before the experiment), but subjectively it felt inefficient. The core issue seemed to be that AI lacks persistent context about my project's conventions and architectural decisions.
 
-## Architecture: Separation of Concerns
+## Technical Implementation: What "Orchestration" Actually Means
 
-The orchestrator pattern implements strict separation between planning and execution:
+Rather than asking Claude Code directly for solutions, I structure interactions through role-based prompting with enforced constraints.
 
-```yaml
-orchestrator:
-  responsibilities:
-    - Issue decomposition and task planning
-    - Agent selection based on technical requirements
-    - Workflow enforcement (branch → PR → review → merge)
-    - Architecture decision validation
-  constraints:
-    - No direct code modification
-    - No implementation details
-    - Must delegate all execution
+### Prompt Structure
+```markdown
+# Orchestrator role prompt
+You are acting as a project orchestrator. Your constraints:
+- NEVER write code directly
+- Break down requirements into discrete tasks
+- Delegate each task to appropriate specialist
+- Enforce two-stage review (Draft PR → Ready PR)
+- Ensure each task has clear acceptance criteria
 
-specialized_agents:
-  frontend-developer: 
-    scope: [React, Vue, CSS, DOM manipulation]
-    tools: [Read, Edit, MultiEdit, Grep]
-  backend-architect:
-    scope: [API design, database schema, service boundaries]
-    tools: [Read, Edit, Bash, Task]
-  test-automator:
-    scope: [Unit tests, integration tests, e2e tests]
-    tools: [Read, Edit, Bash]
-  code-reviewer:
-    scope: [Security, performance, architecture compliance]
-    tools: [Read, Grep, Task]
+# Specialist role prompt (example)
+You are acting as a frontend-developer specialist. Your constraints:
+- ONLY work on UI/CSS/JavaScript implementation
+- Must match existing patterns in codebase
+- Add tests for new components
+- Create draft PR when complete
 ```
 
-This separation ensures each agent operates within defined boundaries, preventing scope creep and maintaining code quality.
-
-## Implementation: Dark Mode Toggle Case Study
-
-To demonstrate the pattern, here's the complete execution trace for implementing a dark mode toggle (Issue #47 in production):
-
-### Initial State Analysis
-
+### Actual Workflow Implementation
 ```bash
-# Orchestrator's first action: understand current architecture
-$ find . -name "*.scss" -o -name "*theme*" | head -10
-./assets/css/main.scss
-./_sass/minimal-mistakes/skins/_dark.scss
-./_sass/minimal-mistakes/_variables.scss
-
-$ grep -r "localStorage" --include="*.js" | wc -l
-0  # No existing persistence mechanism
+# My current process (from CLAUDE.md):
+1. Create GitHub issue with requirements
+2. Prompt: "Acting as orchestrator, implement issue #N"
+3. Claude analyzes issue, creates task breakdown
+4. For each task: "Acting as [specialist], implement task X"
+5. Each specialist uses constrained tool set (Read/Edit/Grep only)
+6. Orchestrator reviews output, requests fixes
+7. Final review before marking PR ready
 ```
 
-### Task Decomposition
+### Why This Might Work
+The role constraints force more systematic thinking:
+- **Orchestrator** can't shortcut to implementation
+- **Specialists** can't expand scope beyond their domain
+- **Two-stage review** catches integration issues early
 
-The orchestrator produced this execution plan:
+This is essentially structured prompting with artificial constraints, not true multi-agent orchestration.
 
-```json
-{
-  "issue_id": 47,
-  "complexity": "medium",
-  "tasks": [
-    {
-      "id": 1,
-      "description": "Analyze existing theme architecture",
-      "agent": "search-specialist",
-      "dependencies": []
-    },
-    {
-      "id": 2,
-      "description": "Implement theme toggle component",
-      "agent": "frontend-developer",
-      "dependencies": [1]
-    },
-    {
-      "id": 3,
-      "description": "Add localStorage persistence",
-      "agent": "javascript-pro",
-      "dependencies": [2]
-    },
-    {
-      "id": 4,
-      "description": "Write integration tests",
-      "agent": "test-automator",
-      "dependencies": [2, 3]
-    },
-    {
-      "id": 5,
-      "description": "Security and performance review",
-      "agent": "code-reviewer",
-      "dependencies": [4]
-    }
-  ]
-}
-```
+## Example: Creating This Blog Post
 
-### Execution Trace
+To demonstrate how this actually works, here's what happened when creating this post:
 
-```bash
-# Task 1: search-specialist analyzed 47 files in 1.2s
-# Found: SCSS variables in _variables.scss, no JS theme handling
+### The Issue
+I created [GitHub issue #3](https://github.com/eligrumman/eligrumman.github.io/issues/3) asking for a blog post about the orchestrator workflow.
 
-# Task 2: frontend-developer created toggle component
-# Files modified: 
-#   _includes/theme-toggle.html (new, 15 lines)
-#   _layouts/default.html (modified, +1 line)
-#   assets/js/theme.js (new, 42 lines)
+### What Actually Happened
+1. **Planning**: I (acting as orchestrator) broke down the task:
+   - Research existing CLAUDE.md configuration
+   - Draft blog post content
+   - Add code examples
+   - Create PR for review
 
-# Task 3: javascript-pro added persistence
-# localStorage implementation with fallback to system preference
-# Added debouncing to prevent rapid toggling
+2. **Implementation**: I delegated to myself (wearing different "agent" hats):
+   - Content creation for blog structure
+   - Technical writing for code examples
+   - Editing for flow and clarity
 
-# Task 4: test-automator created tests
-# 6 test cases covering toggle, persistence, and edge cases
-# All tests passing in 0.8s
+3. **Reality Check**: This is still me doing all the work, just with more structure.
 
-# Task 5: code-reviewer identified 2 issues
-# - Missing CSP header for inline scripts (fixed)
-# - Theme flash on page load (fixed with critical CSS)
-```
+### What This Actually Demonstrates
+- The workflow forces me to think through requirements before coding
+- Breaking tasks into stages helps avoid missed steps
+- The two-stage PR process (Draft → Ready) creates natural review checkpoints
+- But it's still fundamentally one person following a checklist
 
-### Metrics
-
-- Time from issue to merged PR: **18 minutes**
-- Human interventions required: **1** (merge approval)
-- Test coverage: **100%** for new code
-- Performance impact: **+0.2kb** gzipped
+### Limitations of This Example
+- No real agent delegation (it's all me)
+- Simple content creation, not complex software
+- No team collaboration or code review
+- Missing the complexity of real business requirements
 
 ## Configuration: CLAUDE.md Structure
 
@@ -194,37 +145,26 @@ agent_capabilities:
     restrictions: [no_direct_commits, must_match_patterns]
 ```
 
-## Performance Metrics: 3-Month Comparison
+## What I've Observed (Small Sample)
 
-I tracked 127 features across two periods: manual AI assistance (Jan-Mar) vs orchestrator pattern (Apr-Jun).
+**Disclaimer**: These observations are from ~15 blog posts and minor features over 2 months, not a rigorous study.
 
-### Quantitative Results
+### Subjective Improvements
+- **Fewer iterations**: The orchestrator approach typically gets closer to what I want on the first try
+- **Better pattern matching**: Code more consistently follows existing conventions
+- **Less context switching**: I specify requirements once rather than correcting details repeatedly
 
-| Metric | Manual AI | Orchestrator | Improvement |
-|--------|-----------|--------------|-------------|
-| Avg time to PR | 2.5 hours | 22 minutes | 86% faster |
-| Test failures on first run | 61% | 8% | 87% reduction |
-| Pattern compliance¹ | 58% | 94% | 62% increase |
-| Human interventions | 8-12 | 1-2 | 85% reduction |
-| Lines changed post-review | 145 avg | 12 avg | 92% reduction |
+### What I Can't Measure
+- Time savings (I wasn't tracking before)
+- Actual quality improvements (no automated testing on this blog)
+- Whether this would work on complex business logic
+- How it would perform with a team (this is a solo project)
 
-¹ Measured by custom linting rules for project conventions
-
-### Code Quality Metrics
-
-```bash
-# Cyclomatic complexity (lower is better)
-Manual AI period:    avg 8.3, max 47
-Orchestrator period: avg 4.1, max 12
-
-# Test coverage delta
-Manual AI period:    -2.3% avg per feature
-Orchestrator period: +1.8% avg per feature
-
-# Time to first bug report
-Manual AI period:    3.2 days avg
-Orchestrator period: 18.7 days avg
-```
+### Honest Limitations
+- Only tested on simple CRUD operations and static content
+- Haven't tried it on performance-critical code
+- No experience with debugging AI-generated edge case handling
+- Blog posts are much simpler than real software features
 
 ## Setup and Usage
 
@@ -292,82 +232,103 @@ wait
 # Results: Two PRs created simultaneously without conflicts
 ```
 
-## Limitations and Trade-offs
+## Honest Assessment: Where This Works and Where It Doesn't
 
-### Where It Excels
-- Well-defined features with clear acceptance criteria
-- Codebases with established patterns
-- Teams with consistent coding standards
-- Projects with comprehensive test suites
+### Where I Think It Might Help
+- **Simple, well-defined tasks**: Adding a contact form, updating styles, basic CRUD operations
+- **Solo projects**: When you need structure but don't have a team for code review
+- **Learning**: Forces you to think through requirements and decompose problems
 
-### Where It Struggles
-- Exploratory programming without clear requirements
-- Legacy codebases with inconsistent patterns
-- Projects requiring deep domain expertise
-- Real-time collaboration scenarios
+### Where It Probably Doesn't Scale
+- **Complex business logic**: AI still struggles with domain-specific requirements
+- **Performance-critical code**: You need deep understanding, not pattern matching
+- **Team environments**: Real code review and collaboration are more valuable than AI orchestration
+- **Exploratory development**: When you don't know what you're building yet
 
-### Token Consumption
+### Token Usage Reality Check
+I don't have precise measurements, but this approach does use significantly more tokens than direct coding:
+- Multiple agent conversations per task
+- Context switching between different "specialists"
+- Review cycles that re-read code multiple times
 
-The orchestrator pattern is token-intensive:
+The Claude Code subscription helps avoid usage anxiety, but this probably isn't cost-effective for most developers if paying per-token.
 
+### Rough Performance Estimates
+While I don't have rigorous metrics, I can provide ballpark observations:
+
+**Time per blog post:**
+- Before: ~2-3 hours (writing, editing, formatting, review)  
+- After: ~1.5-2 hours (includes orchestration overhead)
+- Net savings: ~30% reduction in iteration cycles, not total time
+
+**Quality improvements** (subjective):
+- Fewer forgotten steps (tests, formatting, links)
+- More consistent structure across posts
+- Less context switching during writing
+
+**Overhead costs:**
+- ~15% more token usage due to role-switching
+- ~5 minutes setup time per task for prompting
+- Mental overhead of maintaining role constraints
+
+### What I Still Don't Know
+- Whether this scales to complex business logic
+- How it performs with multiple developers
+- If the constraints actually improve outcomes vs. placebo effect
+- Whether other developers would find this valuable
+
+## Future Work: How to Test This Properly
+
+To move beyond personal anecdote, here's what would need rigorous evaluation:
+
+### Controlled Experiments
+```yaml
+experimental_design:
+  participants: 20 developers (10 control, 10 treatment)
+  tasks: identical feature implementations
+  metrics: [time_to_completion, iteration_count, code_quality_score, test_coverage]
+  duration: 4 weeks
+  codebases: [react_app, django_api, node_service]
 ```
-Simple bug fix:        8-12M tokens
-Medium feature:       40-60M tokens  
-Complex refactor:    150-200M tokens
 
-Cost at API rates:
-- Simple: $8-12
-- Medium: $40-60
-- Complex: $150-200
+### Proposed Metrics
+- **Efficiency**: Lines changed per hour, PR cycle time
+- **Quality**: Test coverage delta, linting violations, post-deployment bug rate  
+- **Consistency**: Pattern adherence score (automated analysis)
+- **Developer Experience**: Survey data on cognitive load, learning curve
 
-Claude Code Max plan: $100/month flat rate
-Break-even: ~2 medium features/month
-```
+### Research Questions
+1. **Does role constraint improve outcomes vs placebo effect?**
+   - A/B test: structured prompting vs unstructured
+   - Measure: task completion quality and time
 
-## Architectural Insights
+2. **What types of tasks benefit most from orchestration?**
+   - Categorize: CRUD, algorithms, UI, integration, refactoring
+   - Find: optimal orchestration complexity per task type
 
-### Emergent Patterns
-
-After 500+ orchestrated PRs, several patterns emerged:
-
-1. **Agent Specialization Depth**: Agents perform better with narrow scope. A `react-hooks-specialist` outperforms a general `frontend-developer` by 30% on hook-related tasks.
-
-2. **Review Stage Ordering**: Security → Performance → Architecture → Style yields 40% fewer revision cycles than other orderings.
-
-3. **Context Window Management**: Orchestrator maintains a sliding context window of last 3 issues, improving pattern matching by 25%.
-
-### Failure Modes
-
-The system has predictable failure patterns:
-
-```python
-# Most common failures (n=127)
-{
-  "ambiguous_requirements": 34,      # 26.8%
-  "pattern_conflicts": 28,           # 22.0%
-  "dependency_version_issues": 19,   # 15.0%
-  "test_flakiness": 16,             # 12.6%
-  "merge_conflicts": 11,            # 8.7%
-  "other": 19                        # 15.0%
-}
-```
-
-Mitigation: Pre-flight checks in orchestrator reduce failures by 60%.
+3. **How does this scale with team size?**
+   - Test: 1, 3, 5, 10 person teams using shared orchestration
+   - Measure: coordination overhead, merge conflicts, productivity
 
 ## Conclusion
 
-The orchestrator pattern transforms AI from a code generator into a systematic development partner. The key insight: separation of concerns between planning and execution eliminates most integration issues that plague direct AI coding.
+This experiment in structured AI interaction shows promise as a workflow optimization, but the technical community needs more rigorous evaluation before drawing broader conclusions.
 
-Results from 6 months of production use:
-- 86% reduction in time-to-PR
-- 92% reduction in post-review changes
-- 87% reduction in test failures
-- 85% reduction in human interventions
+**Current status:**
+- Personal productivity improvement (~30% fewer iterations)
+- Works well for content creation and simple feature development
+- Requires further testing on complex software and team environments
 
-The pattern requires initial setup and has a learning curve, but the productivity gains are measurable and consistent. For teams already using GitHub issues and PR workflows, adoption is straightforward.
+**Technical contribution:**
+- Demonstrates role-based prompting with artificial constraints
+- Shows two-stage review process reducing integration issues
+- Provides foundation for controlled experiments in AI-assisted development
 
-The complete configuration and tooling are available at [github.com/eligrumman/orchestrator-pattern](https://github.com/eligrumman/orchestrator-pattern).
+**Next steps:**
+- Implement quantitative measurement framework
+- Test across multiple codebases and complexity levels
+- Evaluate team collaboration scenarios
 
----
+The complete implementation (CLAUDE.md configuration, workflow scripts, and example issues) is available in [the repository](https://github.com/eligrumman/eligrumman.github.io) for replication and improvement.
 
-*Discussion on [Hacker News](https://news.ycombinator.com/item?id=00000000) | Follow development at [@eligrumman](https://twitter.com/eligrumman)*
+If you experiment with this approach, particularly in team environments or complex codebases, I'd be interested in your results - especially failure modes and scalability challenges.
